@@ -1,0 +1,235 @@
+<html lang="ru">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="search.css">
+<link rel="stylesheet" href="/all.min.css">
+<script src="script.js"></script>
+<script src="bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class='allform'>
+    <h4>Теоретически возможные дефекты и рекомендации по их выявлению</h4>
+    <!-- График -->
+
+
+
+    <section>
+        <!-- Повернуть график -->
+
+
+        <!-- График -->
+
+        <div class="chart">
+            <svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+
+        <!-- Механизмы деградации -->
+
+        <div class="checkboxes degrad">
+            <label for="">
+                <h2>Коррозионные механизмы деградации</h2>
+            </label>
+            <p id='dataAnswerCorProc' class="data__answer"></p>
+        </div>
+
+        <!-- Методы контроля -->
+
+        <div class="checkboxes mk">
+            <label for="">
+                <h2>Все доступные методы контроля</h2>
+            </label>
+        </div>
+
+        <!-- Исходные данные -->
+        <div class="indataflx checkboxes ">
+            <div class="indata">
+                <p>Материал:</p>
+                <div id="material"></div>
+            </div>
+            <div class="indata">
+                <p>Тип:</p>
+                <div id="materialType"></div>
+            </div>
+            <div class="indata">
+                <p>Защита:</p>
+                <div id="protect"></div>
+            </div>
+            <div class="indata">
+                <p>Тех. среда:</p>
+                <div id="techsreda"></div>
+            </div>
+            <div class="indata">
+                <p>Агрессивные компоненты:</p>
+                <div id="components"></div>
+            </div>
+            <div class="indata">
+                <p>Доп. факторы:</p>
+                <div id="dopfactors"></div>
+            </div>
+            <div class="indata">
+                <p>Давление:</p>
+                <div id="davlenie"></div>
+            </div>
+            <div class="indata">
+                <p>Температура:</p>
+                <div id="temper"></div>
+            </div>
+        </div>
+
+        <!-- Форма чекбоксов -->
+
+        <div class="checkboxes ogr">
+            <label for="">
+                <h2>Ограничения по контролю</h2>
+            </label>
+            <div class="chkbx1"><input id="chkbx" type="checkbox" class="checkbox"><label>Ограничение доступностью
+                    объекта</label></div>
+            <div class="chkbx2"><input id="chkbx" type="checkbox" class="checkbox"><label>Отсутствует доступ со
+                    стороны
+                    воздействия</label></div>
+            <div class="chkbx3"><input id="chkbx" type="checkbox" class="checkbox"><label>Контроль в режиме
+                    эксплуатации</label>
+            </div>
+            <div><button class="btn btn-primary reloadpage">Изменить условия</button></div>
+
+        </div>
+    </section>
+    <!-- <div class="rotate fa-rotate">Повернуть</div> -->
+    <!-- Форма ввода данных    -->
+
+    <div class="enterform" id='stageData'>
+        <h3>Введите данные об объекте</h3>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Материал</label>
+                </div>
+                <select class="selectpicker" data-style="btn-info" data-title="Выберите материал"
+                    id="materialList"></select>
+                <div class="my-error-message" style="display:none">Необходимо выбрать материал</div>
+            </div>
+            <div class="col-md-6">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Тип материала</label>
+                </div>
+                <select class="selectpicker" data-style="btn-info" data-title="Выберите тип материала"
+                    id="materialTypeList"></select>
+                <div class="my-error-message" style="display:none">Необходимо выбрать тип материала</div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Антикоррозионная защита</label>
+                </div>
+                <select class="selectpicker" data-style="btn-info" data-title="Выберите защиту"
+                    id="protectSredaList"></select>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Ограничения по контролю</label>
+                </div>
+                <select class="selectpicker select-multiple" data-style="btn-info" multiple
+                    data-title="Выберите из перечня ограничения по контролю" id="agrCompList"></select>
+            </div>
+        </div>
+        <h3>Параметры эксплуатации</h3>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hover-label-parent">
+                            <label class="hover-label">Технологическая среда</label>
+                        </div>
+                        <select class="selectpicker select-multiple" data-style="btn-info" multiple
+                            data-title="Выберите из перечня среду" id="sredaList"></select>
+                        <div class="my-error-message" style="display:none">Необходимо выбрать среду</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hover-label-parent">
+                            <label class="hover-label">Агрессивные компоненты</label>
+                        </div>
+                        <select class="selectpicker select-multiple" data-style="btn-info" multiple
+                            data-title="Выберите из перечня агрессивные компоненты" id="agrList"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hover-label-parent">
+                            <label class="hover-label">Дополнительные факторы</label>
+                        </div>
+                        <select class="selectpicker select-multiple" data-style="btn-info" multiple
+                            data-title="Выберите из перечня дополнительные факторы" id="dopFactList"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Давление, МПа</label>
+                </div>
+                <input type="number" placeholder="Введите давление" class="form-control" id="davl" data-toggle="tooltip"
+                    data-placement="top" title="Ввод давления"></input>
+            </div>
+            <div class="col-md-4">
+                <div class="hover-label-parent">
+                    <label class="hover-label">Температура,°C</label>
+                </div>
+                <input type="number" placeholder="Введите температуру" class="form-control" id="temp"
+                    data-toggle="tooltip" data-placement="top" title="Ввод температуры"></input>
+                <div class="my-error-message" style="display:none">Необходимо заполнить температуру</div>
+            </div>
+            <div class="col-md-4" id="openModal">
+
+                <button type="button" name="" class="btn btn-primary" style="margin-top:23px; width: 100%;"
+                    id="getResult" data-dismiss="modal">Получить результат</button>
+            </div>
+        </div>
+    </div>
+    <div class="calc"><img src="https://giapdc.ru/forms/mpmk/img/LogoAnSh.gif"></div>
+
+    <!-- Вывод результатов -->
+
+
+    <div class="stageresult__result" id='stageResult'>
+        <div class="row">
+            <div class="col-md-12">
+
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class='table table-striped table-bordered table-hover table-responsive highchart'
+                    id="dataAnswerDefTable" data-graph-container-before="1" data-graph-type="column">
+                    <thead class="resulttable_header">
+                        <th colspan="2">Вид разрушения:</th>
+                        <th class="resulttable_header">Методы:</th>
+                        <th>Выявляемость</th>
+                        <th>Примечание:</th>
+                        <th>Рекомендации:</th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</html>
