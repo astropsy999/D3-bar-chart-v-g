@@ -666,59 +666,59 @@ window.onload = function () {
                                     .call(legend);
 
 
-                                    // $('.legend-one').on('click', function(event) {
-                            
-                                    //     for (let z=0; z < data1.table.length; z++) {
-                                    //         var mkOff = event.target.innerHTML
-                                            
-                                    //         if (data1.table[z].mk === mkOff) {
-            
-                                    //             $('.legend-one').eq(z).toggleClass('click')
-                                    //             $('.r-txt').eq(z).slideToggle()
-                                    //             $('.charttxt').eq(z).toggle(500)
-                                    //             // data1.table.splice (z, 1)  
-                                                
-                                    //             // $('.transchart').eq(z).slideToggle()
-                                                
-                                                
-                                    //             }
+                                // $('.legend-one').on('click', function(event) {
+
+                                //     for (let z=0; z < data1.table.length; z++) {
+                                //         var mkOff = event.target.innerHTML
+
+                                //         if (data1.table[z].mk === mkOff) {
+
+                                //             $('.legend-one').eq(z).toggleClass('click')
+                                //             $('.r-txt').eq(z).slideToggle()
+                                //             $('.charttxt').eq(z).toggle(500)
+                                //             // data1.table.splice (z, 1)  
+
+                                //             // $('.transchart').eq(z).slideToggle()
 
 
-                                    // Убираем графики по клику на легенде
-                           
-                            $(".legend-buttons").on("click", function (event) {                        
+                                //             }
 
-                                 $(this).toggleClass('switched')  
-                                console.log(this)                             
 
-                                var mkOff;
+                                // Убираем графики по клику на легенде
 
-                                dataSet.forEach(function (item, index) {
-                                    
-                                    mkOff = event.target.innerHTML
-                                    if (mkOff === item.mk) {
-                                        
+                                $(".legend-buttons").on("click", function (event) {
 
-                                        // let buffDataSet = []
-                                        // buffDataSet.push(item)
+                                    $(this).toggleClass('switched')
+                                    console.log(this)
 
-                                        // dataSet.splice(index, 1)
+                                    var mkOff;
 
-                                        item.ver = "0"
-                                        
-                                        
-                                    }
-                                    
-                                    
+                                    dataSet.forEach(function (item, index) {
+
+                                        mkOff = event.target.innerHTML
+                                        if (mkOff === item.mk) {
+
+
+                                            // let buffDataSet = []
+                                            // buffDataSet.push(item)
+
+                                            // dataSet.splice(index, 1)
+
+                                            item.ver = "0"
+
+
+                                        }
+
+
+                                    })
+                                    updateGraph(dataSet)
                                 })
-                                updateGraph(dataSet)
-                            })
 
 
                             }
 
 
-                            
+
 
                             // ON Click 
                             d3.selectAll("rect").on("click", function () {
@@ -905,7 +905,7 @@ window.onload = function () {
                                     .call(legend);
 
 
-                                
+
                                 d3.selectAll("rect").on("click", function () {
                                     let remData = this.innerHTML
                                     var attrDef = $(this).attr('height')
@@ -1124,47 +1124,47 @@ window.onload = function () {
                                 svg.append("g")
                                     .call(legend);
 
-                                          // Убираем графики по клику на легенде
-                           
-                            $(".legend-buttons").on("click", function (event) {                        
+                                // Убираем графики по клику на легенде
 
-                                                               
+                                $(".legend-buttons").on("click", function (event) {
 
-                                var mkOff;
 
-                                dataSet.forEach(function (item, index) {
-                                    
-                                    mkOff = event.target.innerHTML
-                                    if (mkOff === item.mk) {
-                                        
 
-                                        // let buffDataSet = []
-                                        // buffDataSet.push(item)
+                                    var mkOff;
 
-                                        // dataSet.splice(index, 1)
+                                    dataSet.forEach(function (item, index) {
 
-                                        item.ver = "0"
-                                        
-                                        
-                                    }
-                                    
-                                    
+                                        mkOff = event.target.innerHTML
+                                        if (mkOff === item.mk) {
+
+
+                                            // let buffDataSet = []
+                                            // buffDataSet.push(item)
+
+                                            // dataSet.splice(index, 1)
+
+                                            item.ver = "0"
+
+
+                                        }
+
+
+                                    })
+                                    plottGraph(dataSet)
                                 })
-                                plottGraph(dataSet)
-                            })
 
-                            // ON Click 
-                            d3.selectAll("rect").on("click", function () {
-                                let remData = this.innerHTML
-                                var attrDef = $(this).attr('width')
+                                // ON Click 
+                                d3.selectAll("rect").on("click", function () {
+                                    let remData = this.innerHTML
+                                    var attrDef = $(this).attr('width')
 
-                                $(this).attr('width', 6)
+                                    $(this).attr('width', 6)
 
 
-                                // d3.select("svg").selectAll(".tick").remove()
-                                // d3.select("svg").selectAll(".data-chart").remove()
-                                // updateGraph (dataSet);
-                            });
+                                    // d3.select("svg").selectAll(".tick").remove()
+                                    // d3.select("svg").selectAll(".data-chart").remove()
+                                    // updateGraph (dataSet);
+                                });
 
                             }
 
@@ -1173,24 +1173,20 @@ window.onload = function () {
 
                             if (dt.ogrContr !== null) {
 
-                                // switch (dt.ogrContr[0]) {
-                                    
-                                //     case "Ограничение зоны контроля доступностью объекта (подземный, на высоте) и подготовкой (снятие изоляции, зачистка и т.д.)":
-                                //         $('#chkbx1').attr( 'checked', true );
-                                //         break;
-                                // }
 
-                                
-                                
-                                // $('#chkbx3').attr( 'checked', true )
-                                if ($.inArray("Ограничение зоны контроля доступностью объекта (подземный, на высоте) и подготовкой (снятие изоляции, зачистка и т.д.)", dt.ogrContr ) != -1) {
-                                    $('#chkbx1').attr( 'checked', true );
-                                } else if ($.inArray ("Отсутствует доступ к объекту контроля со стороны воздействия коррозионно-активных компонентов", dt.ogrContr,[1]) != -1) {
-                                    $('#chkbx2').attr( 'checked', true )
-                                } else if ($.inArray("Контроль в режиме эксплуатации (при температурах поверхности объекта от 100 °С)", dt.ogrContr,[2]) != -1) {
-                                    $('#chkbx3').attr( 'checked', true )
-                                }
-                                
+                                let chkbx1 = "Ограничение зоны контроля доступностью объекта (подземный, на высоте) и подготовкой (снятие изоляции, зачистка и т.д.)",
+                                    chkbx2 = "Отсутствует доступ к объекту контроля со стороны воздействия коррозионно-активных компонентов",
+                                    chkbx3 = "Контроль в режиме эксплуатации (при температурах поверхности объекта от 100 °С)"
+
+                                dt.ogrContr.forEach((item, index) => {
+                                    if (dt.ogrContr[index] === chkbx1) {
+                                        $('#chkbx1').attr('checked', true)
+                                    } else if (dt.ogrContr[index] === chkbx2) {
+                                        $('#chkbx2').attr('checked', true)
+                                    } else if (dt.ogrContr[index] === chkbx3) {
+                                        $('#chkbx3').attr('checked', true)
+                                    }
+                                })
 
                             }
 
