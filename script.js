@@ -219,32 +219,6 @@ window.onload = function () {
 
 
                             let tableB = '',
-                                x = 0,
-                                ww = 20, // расстояние между видами на графике 
-
-                                // Определяем ширину линий баров в зависимости от количества возможных дефектов
-
-                                $width = $('#svg.visualchart').width(),
-                                datLen = data1.table.length,
-                                // ширина одного бара
-                                wl = (0.8 * $width / datLen);
-
-
-
-
-
-                            let frstwdth = [0],
-                                alltheVid = [],
-                                legMetds = [],
-                                col = '',
-                                lastEl = '',
-                                recNum = '',
-                                vidLen = '',
-                                vidbarLen = '',
-                                xvid = '',
-                                StrtWidth = 0,
-                                FullWidth = '',
-                                LastWidth = 0,
                                 dataSet = data1.table
 
 
@@ -262,12 +236,13 @@ window.onload = function () {
 
                                 if (data1.table[i].img == false) {
                                     tableB += '<td></td>';
-                                } else {
-
-                                    // tableB += '<td><img class="imgvid" src="' + img_url + data1.table[i].img + img_ext + '?rnd=' + Math.floor(Math.random() * 101) + ' tabindex="0"><br>';
-                                    // tableB += '<img class="imgvid" src="' + img_url + data1.table[i].img + '1' + img_ext + '?rnd=' + Math.floor(Math.random() * 101) + 'alt="" tabindex="0"></td>';
-
                                 }
+                                // else {
+
+                                //     // tableB += '<td><img class="imgvid" src="' + img_url + data1.table[i].img + img_ext + '?rnd=' + Math.floor(Math.random() * 101) + ' tabindex="0"><br>';
+                                //     // tableB += '<img class="imgvid" src="' + img_url + data1.table[i].img + '1' + img_ext + '?rnd=' + Math.floor(Math.random() * 101) + 'alt="" tabindex="0"></td>';
+
+                                // }
 
                                 tableB += '<td>' + data1.table[i].vid + '</td>';
                                 tableB += '<td>' + data1.table[i].mk + '</td>';
@@ -277,200 +252,7 @@ window.onload = function () {
                                 tableB += '<td class="rec" style="width: 200px;">' + data1.table[i].rec + '</td>';
                                 tableB += '</tr>';
 
-                                // Построение графика Custom
-
-                                //                     // Раскрашиваем методы контроля на графике 
-
-
-
-
-                                // switch (data1.table[i].mk) {
-
-                                //     case 'Акустико-эмиссионный контроль': col = '#2e86de'
-                                //     break
-                                //     case 'Вибродиагностика': col = '#2ecc71'
-                                //     break
-                                //     case 'Внутренний осмотр': col = '#3498db'
-                                //     break
-                                //     case 'Геодезия': col = '#9b59b6'
-                                //     break
-                                //     case 'Гидравлические испытания': col = '#d63031'
-                                //     break
-                                //     case 'Исследования механических свойств': col = '#f39c12'
-                                //     break
-                                //     case 'Метод магнитной памяти': col = '#d35400'
-                                //     break
-                                //     case 'Ультразвуковая дефектоскопия': col = '#990066'
-                                //     break
-                                //     case 'Цветная дефектоскопия': col = '#003153'
-                                //     break
-                                //     case 'Вихретоковый контроль': col = '#3D2B1F'
-                                //     break
-                                //     case 'Магнитный контроль': col = '#8CCB5E'
-                                //     break
-                                //     case 'Радиографический контроль': col = '#FFCF40'
-                                //     break
-                                //     case 'МИТ': col = '#2A8D9C'
-                                //     break
-                                //     case 'Металлографические исследования': col = '#DD80CC'
-                                //     break
-                                //     case 'Наружный осмотр': col = '#009B76'
-                                //     break
-                                //     case 'Пневмоиспытания': col = '#B00000'
-                                //     break
-                                //     case 'Стилоскопирование': col = '#3E5F8A'
-                                //     break
-                                //     case 'Тепловой контроль': col = '#FFB02E'
-                                //     break
-                                //     case 'Ультразвуковая толщинометрия': col = '#ee5253'
-                                //     break
-                                //     case 'Ультразвуковое скрининговое сканирование': col = '#34C924'
-                                //     break
-                                //     case 'Визуально-измерительный контроль': col = '#01a3a4'
-                                //     break
-                                //     case 'Магнитопорошковая дефектоскопия': col = '#0095B6'
-                                //     break
-                                //     case 'Прочность материалов': col = '#DCDCDC'
-                                //     break
-                                //     case 'Влажность элементов': col = '#F64A46'
-                                //     break
-                                //     case 'Замеры сопротивления': col = '#004524'
-                                //     break
-                                //     case 'Динамическое испытание': col = '#D1E231'
-                                //     break
-                                //     case 'Коэрцитиметрия': col = '#423189'
-                                //     break
-                                //     default: col = ''
-                                // } 
-
-
-
-
-
-
-
-
-
-
-
-                                // Рисуем график (HandMade)
-
-                                let ych = 196 - data1.table[i].ver // расстояние от начала координат до цифры над столбцом
-                                $('.allform h4').css('display', 'flex')
-                                // добавляем бары графика, вычисляя их толщину в зависимости от количества баров    
-                                $('.barchart').append(`<rect width="${wl}" height="${data1.table[i].ver}%" x=${x} y=0 fill="${col}"><title>${data1.table[i].mk}</title></rect>`);
-                                // Добавляем Примечания к значению в % над графиком
-                                if (data1.table[i].prim != '') {
-                                    $('.txtchart').append(`<circle title="${data1.table[i].prim}"  cx="${x+6}" cy="${ych-3.5}%" r="4.5" fill="red" class="prim"><title>${data1.table[i].prim}</title></circle>`);
-                                }
-                                // пишем значения в % над каждым баром
-                                $('.txtchart').append(`<text x="${x}" y="${ych}%" class="charttxt">${data1.table[i].ver}</text>`);
-
-                                // Вычленяем число из Рекомендаций
-                                if (data1.table[i].rec != '') {
-                                    recNum = parseInt(data1.table[i].rec.replace(/[^\d]/g, ''))
-                                    let ychZ = 196 - recNum
-
-
-                                    $('.barchart').append(`<rect width="${wl}" height="${recNum}%" x=${x} y=0 fill="${col}" class="transchart"><title>${data1.table[i].rec} методом ${data1.table[i].mk}</title></rect>`)
-                                    $('.txtchart').append(`<text x="${x}" y="${ychZ}%" class="charttxt transtxtchart">${recNum}</text>`)
-
-                                }
-
-
-                                x = x + wl // двигаем графики
-                                // ловим когда наступает смена вида деффекта
-                                if (i > 0 && i < data1.table.length - 1 && data1.table[i].vid != data1.table[i + 1].vid) {
-
-                                    x = x + wl // делаем промежуток между видами
-
-
-                                    frstwdth.push(x)
-
-
-                                    vidLen = frstwdth[1] - frstwdth[0] - wl
-
-                                    $('.data-vidname').append(`<text class="underVName" style="width:${vidLen}px;" x="${x}" y="98%">${data1.table[i].vid}</text>`)
-                                    $('.data-vidname').append(`<text class="spaceVName" style="width:${wl}px;" x="${x}" y="98%"></text>`)
-
-                                    frstwdth.shift()
-
-                                    StrtWidth = x
-
-                                } else {
-
-                                    $('.data-vidname').append(`<text x="${x}" y="98%"></text>`)
-                                }
-                                vidbarLen = vidLen - wl
-                                xvid = x - vidLen
-
-                                if (i < data1.table.length - 1 && data1.table[i].vid != data1.table[i + 1].vid) {
-                                    $('.vidbar').append(`<rect width="${vidbarLen + wl}" height="100%" x="${xvid - wl}" fill="#044B94" fill-opacity="0.1"><title>${data1.table[i].vid}</title></rect>`)
-                                }
-
                             }
-                            unVid = [...new Set(alltheVid)] // получаем массив с уникальными значениями дефектов
-
-                            FullWidth = (data1.table.length * wl) + (unVid.length * wl)
-                            LastWidth = FullWidth - StrtWidth - wl
-
-
-                            // Последнее название вида
-
-                            let theLVid = alltheVid[alltheVid.length - 1]
-                            $('.data-vidname').append(`<text class = "underVName" style="width:${LastWidth}px" x="${x}" y="98%">${theLVid}</text>`)
-
-                            // Последний бар деффекта
-
-                            $('.vidbar').append(`<rect width="${LastWidth}" height="100%" x="${StrtWidth}" fill="#044B94" fill-opacity="0.1"><title>${theLVid}</title></rect>`)
-
-                            // Рисуем Легенду 
-
-                            let unLegMk = [...new Set(legMetds)] // получаем массив с уникальными значениями методов
-                            $('.legend-color').css('width', `${wl}`);
-                            $('.legend-one').css({
-                                'width': '300px'
-                            })
-
-
-                            // Рисуем саму легенду 
-                            unLegMk.forEach((item) => {
-                                let colObj = {
-                                    'Акустико-эмиссионный контроль': '#2e86de',
-                                    'Вибродиагностика': '#2ecc71',
-                                    'Внутренний осмотр': '#3498db',
-                                    'Геодезия': '#9b59b6',
-                                    'Гидравлические испытания': '#d63031',
-                                    'Исследования механических свойств': '#f39c12',
-                                    'Метод магнитной памяти': '#d35400',
-                                    'Ультразвуковая дефектоскопия': '#990066',
-                                    'Цветная дефектоскопия': '#003153',
-                                    'Вихретоковый контроль': '#3D2B1F',
-                                    'Магнитный контроль': '#8CCB5E',
-                                    'Радиографический контроль': '#FFCF40',
-                                    'МИТ': '#2A8D9C',
-                                    'Металлографические исследования': '#DD80CC',
-                                    'Наружный осмотр': '#009B76',
-                                    'Пневмоиспытания': '#B00000',
-                                    'Стилоскопирование': '#3E5F8A',
-                                    'Тепловой контроль': '#FFB02E',
-                                    'Ультразвуковая толщинометрия': '#ee5253',
-                                    'Ультразвуковое скрининговое сканирование': '#34C924',
-                                    'Визуально-измерительный контроль': '#01a3a4',
-                                    'Магнитопорошковая дефектоскопия': '#0095B6',
-                                    'Прочность материалов': '#DCDCDC',
-                                    'Влажность элементов': '#F64A46',
-                                    'Замеры сопротивления': '#004524',
-                                    'Динамическое испытание': '#D1E231',
-                                    'Коэрцитиметрия': '#423189'
-                                }
-                                $('.charts-legend').append(`<div class="legend-one"><div class="legend-color" style="background-color:${colObj[item]}"></div><div class="legend-name">${item}</div></div>`)
-
-                            });
-
-                            // Примечание
-
-                            $('.charts-legend').append(`<div class="legend-one"><div class="prmcrcl"><p>Примечания</p></div></div>`)
 
                             //   Построение графика D3 Горизонтальный
 
