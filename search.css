@@ -23,6 +23,14 @@ section {
 .click {
 }
 
+.hiderect {
+  opacity: 0.03;
+}
+
+.legendhide {
+  opacity: 0.3;
+}
+
 .rotate-btn {
   display: none;
   position: absolute;
@@ -155,8 +163,28 @@ g.legendboard {
   opacity: 0.4;
 }
 
+.switched {
+  opacity: 0.4;
+}
+
 g.switched {
   background-color: grey;
+}
+
+@keyframes glowing {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.lakub_derza_timan {
+  animation: glowing 500ms infinite;
 }
 
 .legend-buttons {
@@ -189,6 +217,10 @@ div.indata#temper {
 
 .data-chart {
   cursor: pointer;
+}
+
+rect.data-chart {
+  border-radius: 2px;
 }
 
 g.tick text {
@@ -244,6 +276,10 @@ span.vidname {
 .vidbar rect {
   z-index: -999;
   border: 1px solid grey;
+}
+
+.hiderecthov {
+  opacity: 0.7;
 }
 
 .data-vidname text {

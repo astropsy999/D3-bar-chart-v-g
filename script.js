@@ -6,7 +6,7 @@ window.onload = function () {
         const fillClassObj = () => {};
 
         // Формируем запрос
-        const zapros = () => {
+        let zapros = () => {
             $.ajax({
                 url: 'https://service.giapdc.ru/index.php/InfoController/getSiteInfo?key=1316c5212b3a76df53b447f0332280bd&mode=1',
                 method: 'post',
@@ -252,264 +252,200 @@ window.onload = function () {
 
                             //   Построение графика D3 Горизонтальный
 
-                            plottGraph(dataSet);
+                            d3VerticalGraph(dataSet);
 
-                            function plottGraph(dataSet) {
+                            //  function plottGraph (dataSet) {
 
 
-                                // Очистка
-                                d3.select('svg').selectAll('*').remove();
+                            //     // Очистка
+                            //     d3.select('svg').selectAll('*').remove();
 
-                                $('.degrad').css('left', '1060px')
-                                $('.mk').css('left', '1060px')
-                                $('.ogr').css('left', '1060px')
-                                $('.indataflx ').css('width', '72em')
+                            //     $('.degrad').css('left', '1060px')
+                            //     $('.mk').css('left', '1060px')
+                            //     $('.ogr').css('left', '1060px')
+                            //     $('.indataflx ').css('width', '72em')
 
-                                // Подготовка графика
+                            //     // Подготовка графика
 
-                                var svg = d3.select("svg"),
-                                    margin = {
-                                        top: 20,
-                                        right: 20,
-                                        bottom: 30,
-                                        left: 220
-                                    },
-                                    width = +svg.attr("width") - margin.left - margin.right,
-                                    height = +svg.attr("height") - margin.top - margin.bottom;
+                            //     var svg = d3.select("svg"),
+                            //         margin = {
+                            //             top: 20,
+                            //             right: 20,
+                            //             bottom: 30,
+                            //             left: 220
+                            //         },
+                            //         width = +svg.attr("width") - margin.left - margin.right,
+                            //         height = +svg.attr("height") - margin.top - margin.bottom;
 
-                                keys = Array.from(new Set(dataSet.map(k => k.mk)))
+                            //     keys = Array.from(new Set(dataSet.map(k => k.mk)))
 
-                                // Данные
+                            //     // Данные
 
-                                const defaulValues = {}
+                            //     const defaulValues = {}
 
-                                dataSet.forEach(item => {
-                                    defaulValues[item.mk] = "1";
-                                });
-
-                                data = Object.entries(dataSet.reduce((a, {
-                                    vid,
-                                    mk,
-                                    ver
-                                }) => {
-                                    a[vid] = a[vid] || {
-                                        ...defaulValues
-                                    };
-                                    a[vid][mk] = ver;
-                                    return a;
-
-                                }, {})).map(([k, v]) => ({
-                                    State: k,
-                                    ...v
-                                }));
-
-                                data.columns = keys;
-                                data.y = "Выявляемость, %";
-
-                                groupKey = "State"
-
-                                formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
-
-                                // Шкалы
-
-                                y0 = d3.scaleBand()
-                                    .domain(data.map(d => d[groupKey]))
-                                    .rangeRound([margin.top, height - margin.bottom])
-                                    .paddingInner(0.1)
+                            //     dataSet.forEach(item => {
+                            //         defaulValues[item.mk] = "1";
+                            //     });
+
+                            //     data = Object.entries(dataSet.reduce((a, {
+                            //         vid,
+                            //         mk,
+                            //         ver
+                            //     }) => {
+                            //         a[vid] = a[vid] || {
+                            //             ...defaulValues
+                            //         };
+                            //         a[vid][mk] = ver;
+                            //         return a;
+
+                            //     }, {})).map(([k, v]) => ({
+                            //         State: k,
+                            //         ...v
+                            //     }));
+
+                            //     data.columns = keys;
+                            //     data.y = "Выявляемость, %";
+
+                            //     groupKey = "State"
+
+                            //     formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+                            //     // Шкалы
+
+                            //     y0 = d3.scaleBand()
+                            //         .domain(data.map(d => d[groupKey]))
+                            //         .rangeRound([margin.top, height - margin.bottom])
+                            //         .paddingInner(0.1)
 
 
-                                y1 = d3.scaleBand()
-                                    .domain(keys.reverse())
-                                    .rangeRound([y0.bandwidth(), 0])
-                                    .padding(0.05)
-
-
-                                x = d3.scaleLinear()
-                                    .domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
-                                    .rangeRound([margin.left, width - margin.right])
-                                    .nice()
-
-
-                                // Цвета
-
-                                var color = d3.scaleOrdinal()
-                                    .range(["#1b1051", "#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598",
-                                        "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
-                                    ]);
-
-
-                                // Легенда 
-
-                                legend = svg => {
-                                    const g = svg
-                                        .style('background-color', 'lightgrey')
-                                        .attr("transform", `translate(${width+120}, 200)`)
-                                        .attr("text-anchor", "end")
-                                        .attr("font-family", "sans-serif")
-                                        .attr("font-size", 10)
-                                        .selectAll("g")
-                                        .data(color.domain().slice().reverse())
-                                        .join("g")
-                                        .attr('class', 'legend-buttons')
-                                        .attr("transform", (d, i) => `translate(240,${i * 20})`)
+                            //     y1 = d3.scaleBand()
+                            //         .domain(keys.reverse())
+                            //         .rangeRound([y0.bandwidth(), 0])
+                            //         .padding(0.05)
 
-                                    g.append("text")
-                                        .attr('class', 'legend-buttons')
-                                        .attr("x", -24)
-                                        .attr("y", 9.5)
-                                        .attr("dy", "0.35em")
-                                        .text(d => d)
 
-                                    g.append("rect")
-                                        .attr("x", -19)
-                                        .attr("width", 19)
-                                        .attr("height", 19)
-                                        .attr("fill", color);
+                            //     x = d3.scaleLinear()
+                            //         .domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
+                            //         .rangeRound([margin.left, width - margin.right])
+                            //         .nice()
 
 
-                                }
+                            //     // Цвета
 
-                                // Рисуем график D3
+                            //     var color = d3.scaleOrdinal()
+                            //         .range(["#1b1051", "#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598",
+                            //             "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
+                            //         ]);
 
-                                svg.append("g")
-                                    .selectAll("g")
-                                    .data(data)
-                                    .join("g")
-                                    .attr("transform", d => `translate(0,${y0(d[groupKey])})`)
-                                    .selectAll("rect")
-                                    .data(d => keys.map(key => ({
-                                        key,
-                                        value: d[key]
-                                    })))
-                                    .join("rect")
-                                    .attr('class', 'data-chart')
-                                    .attr("x", d => x(0))
-                                    .attr("y", d => y1(d.key))
-                                    .attr("height", y1.bandwidth())
-                                    .attr("width", d => x(d.value) - x(0))
-                                    .attr("fill", d => color(d.key))
-                                    .append("title")
-                                    .text(d => `${d.key} : ${formatValue(d.value)}`);
 
+                            //     // Легенда 
 
-                                // Оси
+                            //     legend = svg => {
+                            //         const g = svg
+                            //             .style('background-color', 'lightgrey')
+                            //             .attr("transform", `translate(${width+120}, 200)`)
+                            //             .attr("text-anchor", "end")
+                            //             .attr("font-family", "sans-serif")
+                            //             .attr("font-size", 10)
+                            //             .selectAll("g")
+                            //             .data(color.domain().slice().reverse())
+                            //             .join("g")
+                            //             .attr('class', 'legend-buttons')
+                            //             .attr("transform", (d, i) => `translate(240,${i * 20})`)
 
-                                xAxis = g => g
-                                    .attr("transform", `translate(0,${height - margin.bottom})`)
-                                    .call(d3.axisBottom(x))
-                                    .call(g => g.select(".domain").remove())
-                                    .call(d3.axisBottom(x).ticks(4, "s").tickSize(-height + 40))
-                                    .call(g => g.select(".tick:last-of-type text").clone()
-                                        .attr("x", 15)
-                                        .attr("text-anchor", "start")
-                                        .attr("font-weight", "bold")
-                                        .text(data.y))
-                                    .style('color', '#8E8883');
+                            //         g.append("text")
+                            //             .attr('class', 'legend-buttons')
+                            //             .attr("x", -24)
+                            //             .attr("y", 9.5)
+                            //             .attr("dy", "0.35em")
+                            //             .text(d => d)
 
+                            //         g.append("rect")
+                            //             .attr("x", -19)
+                            //             .attr("width", 19)
+                            //             .attr("height", 19)
+                            //             .attr("fill", color);
 
 
-                                yAxis = g => g
-                                    .attr("transform", `translate(${margin.left},0)`)
-                                    .call(d3.axisLeft(y0).ticks(null, "s"))
-                                    .call(g => g.select(".domain").remove())
+                            //     }
 
+                            //     // Рисуем график D3
 
+                            //     svg.append("g")
+                            //         .selectAll("g")
+                            //         .data(data)
+                            //         .join("g")
+                            //         .attr("transform", d => `translate(0,${y0(d[groupKey])})`)
+                            //         .selectAll("rect")
+                            //         .data(d => keys.map(key => ({
+                            //             key,
+                            //             value: d[key]
+                            //         })))
+                            //         .join("rect")
+                            //         .attr('class', 'data-chart')
+                            //         .attr("x", d => x(0))
+                            //         .attr("y", d => y1(d.key))
+                            //         .attr("height", y1.bandwidth())
+                            //         .attr("width", d => x(d.value) - x(0))
+                            //         .attr("fill", d => color(d.key))
+                            //         .append("title")
+                            //         .text(d => `${d.key} : ${formatValue(d.value)}`);
 
-                                // svg.append("g")
-                                // 	.attr("fill", "black")
-                                // 	.attr("text-anchor", "end")
-                                // 	.attr("font-family", "sans-serif")
-                                // 	.attr("font-size", 12)
-                                // 	.selectAll("text")
-                                // 	.data(dataSet)
-                                // 	.join("text")
-                                // 	.attr("x", 500)
-                                // 	.attr("y", d => y1(d.key))
-                                // 	//   .attr("dy", "0.35em")
-                                // 	//   .attr("dx", -4)
-                                // 	.text(d => d.ver)
-                                // 	.call(text => text.filter(d => x(d.value) - x(0) < 20) // short bars
-                                // 		.attr("dx", +4)
-                                // 		.attr("fill", "black")
-                                // 		.attr("text-anchor", "start"));
 
+                            //     // Оси
 
-                                svg.append("g")
-                                    .call(xAxis);
+                            //     xAxis = g => g
+                            //         .attr("transform", `translate(0,${height - margin.bottom})`)
+                            //         .call(d3.axisBottom(x))
+                            //         .call(g => g.select(".domain").remove())
+                            //         .call(d3.axisBottom(x).ticks(4, "s").tickSize(-height + 40))
+                            //         .call(g => g.select(".tick:last-of-type text").clone()
+                            //             .attr("x", 15)
+                            //             .attr("text-anchor", "start")
+                            //             .attr("font-weight", "bold")
+                            //             .text(data.y))
+                            //         .style('color', '#8E8883');
 
-                                svg.append("g")
-                                    .call(yAxis);
 
-                                svg.append("g")
-                                    .call(legend);
 
+                            //     yAxis = g => g
+                            //         .attr("transform", `translate(${margin.left},0)`)
+                            //         .call(d3.axisLeft(y0).ticks(null, "s"))
+                            //         .call(g => g.select(".domain").remove())
 
-                                // $('.legend-one').on('click', function(event) {
 
-                                //     for (let z=0; z < data1.table.length; z++) {
-                                //         var mkOff = event.target.innerHTML
+                            //     svg.append("g")
+                            //         .call(xAxis);
 
-                                //         if (data1.table[z].mk === mkOff) {
+                            //     svg.append("g")
+                            //         .call(yAxis);
 
-                                //             $('.legend-one').eq(z).toggleClass('click')
-                                //             $('.r-txt').eq(z).slideToggle()
-                                //             $('.charttxt').eq(z).toggle(500)
-                                //             // data1.table.splice (z, 1)  
+                            //     svg.append("g")
+                            //         .call(legend);
 
-                                //             // $('.transchart').eq(z).slideToggle()
 
 
-                                //             }
 
 
-                                // Убираем графики по клику на легенде
 
-                                $(".legend-buttons").on("click", function (event) {
 
-                                    $(this).toggleClass('switched')
-                                    console.log(this)
+                            // }
 
-                                    var mkOff;
 
-                                    dataSet.forEach(function (item, index) {
 
-                                        mkOff = event.target.innerHTML
-                                        if (mkOff === item.mk) {
 
+                            // // ON Click 
+                            // d3.selectAll("rect").on("click", function () {
+                            //     let remData = this.innerHTML
+                            //     var attrDef = $(this).attr('width')
 
-                                            // let buffDataSet = []
-                                            // buffDataSet.push(item)
+                            //     $(this).attr('width', 6)
 
-                                            // dataSet.splice(index, 1)
 
-                                            item.ver = "0"
-
-
-                                        }
-
-
-                                    })
-                                    updateGraph(dataSet)
-                                })
-
-
-                            }
-
-
-
-
-                            // ON Click 
-                            d3.selectAll("rect").on("click", function () {
-                                let remData = this.innerHTML
-                                var attrDef = $(this).attr('width')
-
-                                $(this).attr('width', 6)
-
-
-                                // d3.select("svg").selectAll(".tick").remove()
-                                // d3.select("svg").selectAll(".data-chart").remove()
-                                // updateGraph (dataSet);
-                            });
+                            //     // d3.select("svg").selectAll(".tick").remove()
+                            //     // d3.select("svg").selectAll(".data-chart").remove()
+                            //     // updateGraph (dataSet);
+                            // });
 
 
                             // Вертикальный график D3
@@ -587,7 +523,7 @@ window.onload = function () {
                                     .paddingInner(0.1)
 
                                 x1 = d3.scaleBand()
-                                    .domain(keys.reverse())
+                                    .domain(keys)
                                     .rangeRound([0, x0.bandwidth()])
                                     .padding(0.05)
 
@@ -627,19 +563,19 @@ window.onload = function () {
 
                                 legend = svg => {
                                     const g = svg
-                                        .attr("transform", `translate(${width+270}, 200)`)
+                                        .attr("transform", `translate(${width+290}, 270)`)
                                         .attr("text-anchor", "end")
                                         .attr("font-family", "sans-serif")
                                         .attr("font-size", 10)
                                         .selectAll("g")
-                                        .data(color.domain().slice().reverse())
+                                        .data(color.domain().slice())
                                         .join("g")
                                         .attr('class', 'legend-buttons')
                                         .attr("transform", (d, i) => `translate(0,${i * 20})`);
 
                                     g.append("rect")
                                         .attr('class', 'legend-buttons')
-                                        .attr("x", -19)
+                                        .attr("x", -260)
                                         .attr("width", 19)
                                         .attr("height", 19)
                                         .attr("fill", color);
@@ -667,11 +603,12 @@ window.onload = function () {
                                     .attr('class', 'data-chart')
                                     .attr("x", d => x1(d.key))
                                     .attr("y", d => y(d.value))
+                                    .attr("rx", "5")
                                     .attr("width", x1.bandwidth())
                                     .attr("height", d => y(0) - y(d.value))
                                     .attr("fill", d => color(d.key))
                                     .append("title")
-                                    .text(d => `${d.key} : ${formatValue(d.value)}`);
+                                    .text(d => `${d.key}`);
 
                                 svg.append("g")
                                     .call(xAxis);
@@ -684,269 +621,294 @@ window.onload = function () {
 
 
 
-                                d3.selectAll("rect").on("click", function () {
-                                    let remData = this.innerHTML
-                                    var attrDef = $(this).attr('height')
+                                // d3.selectAll("rect").on("click", function () {
+                                //     let remData = this.innerHTML
+                                //     var attrDef = $(this).attr('height')
 
-                                    $(this).attr('height', 5)
-
-
-                                    // d3.select("svg").selectAll(".tick").remove()
-                                    // d3.select("svg").selectAll(".data-chart").remove()
-                                    // updateGraph (dataSet);
-                                });
-
-                            }
-
-                            //  Повернуть график 
-
-                            let flag = 0
-
-                            $('.rotate-btn').on('click', function () {
-
-                                if (flag == 0) {
-                                    d3VerticalGraph(dataSet);
-                                    flag = 1
-                                } else {
-                                    plottGraph(dataSet)
-                                    flag = 0
-                                }
-                            });
+                                //     $(this).attr('height', 5)
 
 
-                            function updateGraph(dataSet) {
-
-                                // Очистка
-                                d3.select('svg').selectAll('*').remove();
-
-                                $('.degrad').css('left', '1060px')
-                                $('.mk').css('left', '1060px')
-                                $('.ogr').css('left', '1060px')
-                                $('.indataflx ').css('width', '72em')
-
-                                // Подготовка графика
-
-                                var svg = d3.select("svg"),
-                                    margin = {
-                                        top: 20,
-                                        right: 20,
-                                        bottom: 30,
-                                        left: 220
-                                    },
-                                    width = +svg.attr("width") - margin.left - margin.right,
-                                    height = +svg.attr("height") - margin.top - margin.bottom;
-
-                                keys = Array.from(new Set(dataSet.map(k => k.mk)))
-
-                                // Данные
-
-                                const defaulValues = {}
-
-                                dataSet.forEach(item => {
-                                    defaulValues[item.mk] = "1";
-                                });
-
-                                data = Object.entries(dataSet.reduce((a, {
-                                    vid,
-                                    mk,
-                                    ver
-                                }) => {
-                                    a[vid] = a[vid] || {
-                                        ...defaulValues
-                                    };
-                                    a[vid][mk] = ver;
-                                    return a;
-
-                                }, {})).map(([k, v]) => ({
-                                    State: k,
-                                    ...v
-                                }));
-
-                                data.columns = keys;
-                                data.y = "Выявляемость, %";
-
-                                groupKey = "State"
-
-                                formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
-
-                                // Шкалы
-
-                                y0 = d3.scaleBand()
-                                    .domain(data.map(d => d[groupKey]))
-                                    .rangeRound([margin.top, height - margin.bottom])
-                                    .paddingInner(0.1)
+                                //     // d3.select("svg").selectAll(".tick").remove()
+                                //     // d3.select("svg").selectAll(".data-chart").remove()
+                                //     // updateGraph (dataSet);
+                                // });
 
 
-                                y1 = d3.scaleBand()
-                                    .domain(keys.reverse())
-                                    .rangeRound([y0.bandwidth(), 0])
-                                    .padding(0.05)
+                                // Все бары
 
 
-                                x = d3.scaleLinear()
-                                    .domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
-                                    .rangeRound([margin.left, width - margin.right])
-                                    .nice()
-
-
-                                // Цвета
-
-                                var color = d3.scaleOrdinal()
-                                    .range(["#1b1051", "#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598",
-                                        "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
-                                    ]);
-
-
-                                // Легенда 
-
-                                legend = svg => {
-                                    const g = svg
-                                        .style('background-color', 'lightgrey')
-                                        .attr("transform", `translate(${width+120}, 200)`)
-                                        .attr("text-anchor", "end")
-                                        .attr("font-family", "sans-serif")
-                                        .attr("font-size", 10)
-                                        .selectAll("g")
-                                        .data(color.domain().slice().reverse())
-                                        .join("g")
-                                        .attr('class', 'legend-buttons')
-                                        .attr("transform", (d, i) => `translate(240,${i * 20})`)
-
-                                    g.append("text")
-                                        .attr('class', 'legend-buttons')
-                                        .attr("x", -24)
-                                        .attr("y", 9.5)
-                                        .attr("dy", "0.35em")
-                                        .text(d => d)
-
-                                    g.append("rect")
-                                        .attr("x", -19)
-                                        .attr("width", 19)
-                                        .attr("height", 19)
-                                        .attr("fill", color);
-
-
-                                }
-
-                                // Рисуем график D3
-
-                                svg.append("g")
-                                    .selectAll("g")
-                                    .data(data)
-                                    .join("g")
-                                    .attr("transform", d => `translate(0,${y0(d[groupKey])})`)
-                                    .selectAll("rect")
-                                    .data(d => keys.map(key => ({
-                                        key,
-                                        value: d[key]
-                                    })))
-                                    .join("rect")
-                                    .attr('class', 'data-chart')
-                                    .attr("x", d => x(0))
-                                    .attr("y", d => y1(d.key))
-                                    .attr("height", y1.bandwidth())
-                                    .attr("width", d => x(d.value) - x(0))
-                                    .attr("fill", d => color(d.key))
-                                    .append("title")
-                                    .text(d => `${d.key} : ${formatValue(d.value)}`);
-
-
-                                // Оси
-
-                                xAxis = g => g
-                                    .attr("transform", `translate(0,${height - margin.bottom})`)
-                                    .call(d3.axisBottom(x))
-                                    .call(g => g.select(".domain").remove())
-                                    .call(d3.axisBottom(x).ticks(4, "s").tickSize(-height + 40))
-                                    .call(g => g.select(".tick:last-of-type text").clone()
-                                        .attr("x", 15)
-                                        .attr("text-anchor", "start")
-                                        .attr("font-weight", "bold")
-                                        .text(data.y))
-                                    .style('color', '#8E8883');
-
-
-
-                                yAxis = g => g
-                                    .attr("transform", `translate(${margin.left},0)`)
-                                    .call(d3.axisLeft(y0).ticks(null, "s"))
-                                    .call(g => g.select(".domain").remove())
-
-
-
-                                // svg.append("g")
-                                // 	.attr("fill", "black")
-                                // 	.attr("text-anchor", "end")
-                                // 	.attr("font-family", "sans-serif")
-                                // 	.attr("font-size", 12)
-                                // 	.selectAll("text")
-                                // 	.data(dataSet)
-                                // 	.join("text")
-                                // 	.attr("x", 500)
-                                // 	.attr("y", d => y1(d.key))
-                                // 	//   .attr("dy", "0.35em")
-                                // 	//   .attr("dx", -4)
-                                // 	.text(d => d.ver)
-                                // 	.call(text => text.filter(d => x(d.value) - x(0) < 20) // short bars
-                                // 		.attr("dx", +4)
-                                // 		.attr("fill", "black")
-                                // 		.attr("text-anchor", "start"));
-
-
-                                svg.append("g")
-                                    .call(xAxis);
-
-                                svg.append("g")
-                                    .call(yAxis);
-
-                                svg.append("g")
-                                    .call(legend);
 
                                 // Убираем графики по клику на легенде
 
-                                $(".legend-buttons").on("click", function (event) {
 
 
-
-                                    var mkOff;
-
-                                    dataSet.forEach(function (item, index) {
-
+                                $(".legend-buttons").on({
+                                    click: function (event) {
+                                        var mkOff;
+                                        event.target.parentNode.classList.toggle('legendhide')
                                         mkOff = event.target.innerHTML
-                                        if (mkOff === item.mk) {
+                                        let allRect = document.querySelectorAll('.data-chart title')
+                                        allRect.forEach(el => {
 
+                                            if (mkOff === el.innerHTML) {
 
-                                            // let buffDataSet = []
-                                            // buffDataSet.push(item)
+                                                el.parentNode.classList.toggle('hiderect')
 
-                                            // dataSet.splice(index, 1)
+                                            }
+                                        })
+                                    },
+                                    mouseenter: function (event) {
+                                        var mkOv;
+                                        // event.target.parentNode.classList.toggle('legendhide')
+                                        mkOv = event.target.innerHTML
+                                        let allOv = document.querySelectorAll('.data-chart title')
+                                        allOv.forEach(el => {
 
-                                            item.ver = "0"
+                                            if (mkOv === el.innerHTML) {
 
+                                                el.parentNode.classList.toggle('lakub_derza_timan')
 
-                                        }
+                                            }
+                                        })
+                                    },
+                                    mouseleave: function (event) {
+                                        var mkOv;
+                                        // event.target.parentNode.classList.toggle('legendhide')
+                                        mkOv = event.target.innerHTML
+                                        let allOv = document.querySelectorAll('.data-chart title')
+                                        allOv.forEach(el => {
 
+                                            if (mkOv === el.innerHTML) {
 
-                                    })
-                                    plottGraph(dataSet)
+                                                el.parentNode.classList.toggle('lakub_derza_timan')
+                                            }
+                                        })
+                                    }
+
                                 })
 
-                                // ON Click 
-                                d3.selectAll("rect").on("click", function () {
-                                    let remData = this.innerHTML
-                                    var attrDef = $(this).attr('width')
+                                // $(".legend-buttons").on('focus', (event) => {
 
-                                    $(this).attr('width', 6)
+                                //     var mkFocus;
+                                //     mkFocus = event.target.innerHTML
+                                //     let allFocus = document.querySelectorAll('.data-chart title')
+                                //     allFocus.forEach(el => {
+
+                                //         if (mkFocus === el.innerHTML) {
+
+                                //             el.parentNode.classList.toggle('hiderect')
 
 
-                                    // d3.select("svg").selectAll(".tick").remove()
-                                    // d3.select("svg").selectAll(".data-chart").remove()
-                                    // updateGraph (dataSet);
-                                });
+                                //         }
+
+                                //     })
+
+
+                                // })
+
+                                //  Повернуть график 
+
+                                // let flag = 0
+
+                                // $('.rotate-btn').on('click', function () {
+
+                                //     if (flag == 0) {
+                                //         d3VerticalGraph(dataSet);
+                                //         flag = 1
+                                //     } else {
+                                //         plottGraph(dataSet)
+                                //         flag = 0
+                                //     }
+                                // });
+
+
+                                function updateGraph(dataSet) {
+
+                                    // Очистка
+                                    d3.select('svg').selectAll('*').remove();
+
+                                    $('.degrad').css('left', '1060px')
+                                    $('.mk').css('left', '1060px')
+                                    $('.ogr').css('left', '1060px')
+                                    $('.indataflx ').css('width', '72em')
+
+                                    // Подготовка графика
+
+                                    var svg = d3.select("svg"),
+                                        margin = {
+                                            top: 20,
+                                            right: 20,
+                                            bottom: 30,
+                                            left: 220
+                                        },
+                                        width = +svg.attr("width") - margin.left - margin.right,
+                                        height = +svg.attr("height") - margin.top - margin.bottom;
+
+                                    keys = Array.from(new Set(dataSet.map(k => k.mk)))
+
+                                    // Данные
+
+                                    const defaulValues = {}
+
+                                    dataSet.forEach(item => {
+                                        defaulValues[item.mk] = "1";
+                                    });
+
+                                    data = Object.entries(dataSet.reduce((a, {
+                                        vid,
+                                        mk,
+                                        ver
+                                    }) => {
+                                        a[vid] = a[vid] || {
+                                            ...defaulValues
+                                        };
+                                        a[vid][mk] = ver;
+                                        return a;
+
+                                    }, {})).map(([k, v]) => ({
+                                        State: k,
+                                        ...v
+                                    }));
+
+                                    data.columns = keys;
+                                    data.y = "Выявляемость, %";
+
+                                    groupKey = "State"
+
+                                    formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+                                    // Шкалы
+
+                                    y0 = d3.scaleBand()
+                                        .domain(data.map(d => d[groupKey]))
+                                        .rangeRound([margin.top, height - margin.bottom])
+                                        .paddingInner(0.1)
+
+
+                                    y1 = d3.scaleBand()
+                                        .domain(keys.reverse())
+                                        .rangeRound([y0.bandwidth(), 0])
+                                        .padding(0.05)
+
+
+                                    x = d3.scaleLinear()
+                                        .domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
+                                        .rangeRound([margin.left, width - margin.right])
+                                        .nice()
+
+
+                                    // Цвета
+
+                                    var color = d3.scaleOrdinal()
+                                        .range(["#1b1051", "#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598",
+                                            "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
+                                        ]);
+
+
+                                    // Легенда 
+
+                                    legend = svg => {
+                                        const g = svg
+                                            .style('background-color', 'lightgrey')
+                                            .attr("transform", `translate(${width+120}, 200)`)
+                                            .attr("text-anchor", "end")
+                                            .attr("font-family", "sans-serif")
+                                            .attr("font-size", 10)
+                                            .selectAll("g")
+                                            .data(color.domain().slice().reverse())
+                                            .join("g")
+                                            .attr('class', 'legend-buttons')
+                                            .attr("transform", (d, i) => `translate(240,${i * 20})`)
+
+                                        g.append("text")
+                                            .attr('class', 'legend-buttons')
+                                            .attr("x", -24)
+                                            .attr("y", 9.5)
+                                            .attr("dy", "0.35em")
+                                            .text(d => d)
+
+                                        g.append("rect")
+                                            .attr("x", -19)
+                                            .attr("width", 19)
+                                            .attr("height", 19)
+                                            .attr("fill", color);
+
+
+                                    }
+
+                                    // Рисуем график D3
+
+                                    svg.append("g")
+                                        .selectAll("g")
+                                        .data(data)
+                                        .join("g")
+                                        .attr("transform", d => `translate(0,${y0(d[groupKey])})`)
+                                        .selectAll("rect")
+                                        .data(d => keys.map(key => ({
+                                            key,
+                                            value: d[key]
+                                        })))
+                                        .join("rect")
+                                        .attr('class', 'data-chart')
+                                        .attr("x", d => x(0))
+                                        .attr("y", d => y1(d.key))
+                                        .attr("height", y1.bandwidth())
+                                        .attr("width", d => x(d.value) - x(0))
+                                        .attr("fill", d => color(d.key))
+                                        .append("title")
+                                        .text(d => `${d.key}`);
+
+
+                                    // Оси
+
+                                    xAxis = g => g
+                                        .attr("transform", `translate(0,${height - margin.bottom})`)
+                                        .call(d3.axisBottom(x))
+                                        .call(g => g.select(".domain").remove())
+                                        .call(d3.axisBottom(x).ticks(4, "s").tickSize(-height + 40))
+                                        .call(g => g.select(".tick:last-of-type text").clone()
+                                            .attr("x", 15)
+                                            .attr("text-anchor", "start")
+                                            .attr("font-weight", "bold")
+                                            .text(data.y))
+                                        .style('color', '#8E8883');
+
+
+
+                                    yAxis = g => g
+                                        .attr("transform", `translate(${margin.left},0)`)
+                                        .call(d3.axisLeft(y0).ticks(null, "s"))
+                                        .call(g => g.select(".domain").remove())
+
+
+
+                                    svg.append("g")
+                                        .call(xAxis);
+
+                                    svg.append("g")
+                                        .call(yAxis);
+
+                                    svg.append("g")
+                                        .call(legend);
+
+
+
+                                    // // ON Click 
+                                    // d3.selectAll("rect").on("click", function () {
+                                    //     let remData = this.innerHTML
+                                    //     var attrDef = $(this).attr('width')
+
+                                    //     $(this).attr('width', 6)
+
+
+                                    //     // d3.select("svg").selectAll(".tick").remove()
+                                    //     // d3.select("svg").selectAll(".data-chart").remove()
+                                    //     // updateGraph (dataSet);
+                                    // });
+
+                                }
 
                             }
-
-
 
 
 
@@ -1025,21 +987,261 @@ window.onload = function () {
 
                 // Отлавливаем изменения чекбоксов
 
+                let newOgr = []
                 $('.checkboxes').change((event) => {
-                    console.log(event.target.id)
+
+                    // $('input:checkbox:checked')
+                    // $('.checkboxes').prop("checked")
+
+                    // if(dt.ogrContr = null) {
+                    //     dt.ogrContr = newOgr 
+
+                    // } else {
+                    dt.ogrContr = newOgr
                     switch (event.target.id) {
                         case 'chkbx1':
-
-                            console.log(chkbx1)
+                            // dt.ogrContr.splice($.inArray(chkbx1, dt.ogrContr), 1)
+                            newOgr.push(chkbx1)
+                            console.log(dt.ogrContr)
+                            console.log(dt)
+                            sendAgain()
                             break
                         case 'chkbx2':
-                            console.log(chkbx2)
+                            // dt.ogrContr.splice($.inArray(chkbx2, dt.ogrContr), 1)
+
+                            newOgr.push(chkbx2)
+                            console.log(dt.ogrContr)
+                            console.log(dt)
+                            sendAgain()
+
                             break
                         case 'chkbx3':
-                            console.log(chkbx3)
+
+                            // dt.ogrContr.splice($.inArray(chkbx3, dt.ogrContr), 1)
+                            newOgr.push(chkbx3)
+                            console.log(dt.ogrContr)
+                            console.log(dt)
+                            sendAgain()
                             break
+                    }
+
+
+                    function sendAgain() {
+                        let dataSet = []
+                        $.ajax({
+                            url: 'https://service.giapdc.ru/index.php/InfoController/getSiteInfo?key=1316c5212b3a76df53b447f0332280bd&mode=2',
+                            method: 'post',
+                            dataType: 'json',
+                            data: {
+                                dt: dt
+                            },
+                            success: function (data1) {
+
+
+                                console.log('отправлен')
+                                dataSet = data1.table
+                                console.log(dataSet)
+                                // Очистка старого графика
+
+                                d3.select('svg').selectAll('*').remove();
+                                $('.degrad').css('left', '1160px')
+                                $('.mk').css('left', '1160px')
+                                $('.ogr').css('left', '1160px')
+                                $('.indataflx ').css('width', '80em')
+
+                                // $(".rotate-btn").css('display', 'flex');
+
+                                // Подготовка графика
+
+                                var svg = d3.select("svg"),
+                                    margin = {
+                                        top: 20,
+                                        right: 20,
+                                        bottom: 30,
+                                        left: 40
+                                    },
+                                    width = +svg.attr("width") - margin.left - margin.right,
+                                    height = +svg.attr("height") - margin.top - margin.bottom;
+
+                                keys = [],
+
+
+                                    keys = Array.from(new Set(dataSet.map(k => k.mk)))
+
+
+
+                                // Данные
+
+                                const defaulValues = {}
+
+                                dataSet.forEach(item => {
+                                    defaulValues[item.mk] = "1";
+                                });
+
+
+                                let data = Object.entries(dataSet.reduce((a, {
+                                    vid,
+                                    mk,
+                                    ver
+                                }) => {
+                                    a[vid] = a[vid] || {
+                                        ...defaulValues
+                                    };
+                                    a[vid][mk] = ver;
+                                    return a;
+
+                                }, {})).map(([k, v]) => ({
+                                    State: k,
+                                    ...v
+                                }));
+
+                                data.columns = keys;
+                                data.y = "Выявляемость";
+
+                                groupKey = "State"
+
+                                formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+                                // Шкалы
+
+                                x0 = d3.scaleBand()
+                                    .domain(data.map(d => d[groupKey]))
+                                    .rangeRound([margin.left, width - margin.right])
+                                    .paddingInner(0.1)
+
+                                x1 = d3.scaleBand()
+                                    .domain(keys)
+                                    .rangeRound([0, x0.bandwidth()])
+                                    .padding(0.05)
+
+                                y = d3.scaleLinear()
+                                    .domain([0, d3.max(data, d => d3.max(keys, key => d[key]))]).nice()
+                                    .rangeRound([height - margin.bottom, margin.top])
+
+                                // Оси
+
+                                xAxis = g => g
+                                    .attr("transform", `translate(0,${height - margin.bottom})`)
+                                    .call(d3.axisBottom(x0).tickSizeOuter(0))
+                                    .call(g => g.select(".domain").remove())
+
+
+                                yAxis = g => g
+                                    .attr("transform", `translate(${margin.left},0)`)
+                                    .call(d3.axisLeft(y).ticks(4, "s").tickSize(-width + 50))
+                                    .call(g => g.select(".domain").remove())
+                                    .call(g => g.select(".tick:last-of-type text").clone()
+                                        .attr("x", 3)
+                                        .attr("text-anchor", "start")
+                                        .attr("font-weight", "bold")
+                                        .text(data.y))
+
+
+
+                                // Цвета
+
+                                color = d3.scaleOrdinal()
+                                    .range(["#1b1051", "#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598",
+                                        "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
+                                    ])
+
+
+                                // Легенда 
+
+                                legend = svg => {
+                                    const g = svg
+                                        .attr("transform", `translate(${width+290}, 270)`)
+                                        .attr("text-anchor", "end")
+                                        .attr("font-family", "sans-serif")
+                                        .attr("font-size", 10)
+                                        .selectAll("g")
+                                        .data(color.domain().slice())
+                                        .join("g")
+                                        .attr('class', 'legend-buttons')
+                                        .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+                                    g.append("rect")
+                                        .attr('class', 'legend-buttons')
+                                        .attr("x", -260)
+                                        .attr("width", 19)
+                                        .attr("height", 19)
+                                        .attr("fill", color);
+
+                                    g.append("text")
+                                        .attr("x", -24)
+                                        .attr("y", 9.5)
+                                        .attr("dy", "0.35em")
+                                        .text(d => d);
+                                }
+
+                                // Рисуем график D3
+
+                                svg.append("g")
+                                    .selectAll("g")
+                                    .data(data)
+                                    .join("g")
+                                    .attr("transform", d => `translate(${x0(d[groupKey])},0)`)
+                                    .selectAll("rect")
+                                    .data(d => keys.map(key => ({
+                                        key,
+                                        value: d[key]
+                                    })))
+                                    .join("rect")
+                                    .attr('class', 'data-chart')
+                                    .attr("x", d => x1(d.key))
+                                    .attr("y", d => y(d.value))
+                                    .attr("rx", "5")
+                                    .attr("width", x1.bandwidth())
+                                    .attr("height", d => y(0) - y(d.value))
+                                    .attr("fill", d => color(d.key))
+                                    .append("title")
+                                    .text(d => `${d.key}`);
+
+                                svg.append("g")
+                                    .call(xAxis);
+
+                                svg.append("g")
+                                    .call(yAxis);
+
+                                svg.append("g")
+                                    .call(legend);
+
+                                // Убираем графики по клику на легенде
+
+                                $(".legend-buttons").on("click", function (event) {
+
+                                    var mkOff;
+                                    event.target.parentNode.classList.toggle('legendhide')
+
+                                    mkOff = event.target.innerHTML
+                                    let allRect = document.querySelectorAll('.data-chart title')
+                                    allRect.forEach(el => {
+
+                                        if (mkOff === el.innerHTML) {
+
+                                            el.parentNode.classList.toggle('hiderect')
+                                            el.hover('focus', () => el.parentNode.classList.toggle('hiderect'))
+                                        }
+
+                                    })
+
+
+                                })
+
+
+
+
+                            },
+                            error: function () {
+                                console.log('не отправлен')
+                            }
+                        })
+
+
 
                     }
+
+
 
                 })
 
@@ -1053,6 +1255,7 @@ window.onload = function () {
                 events();
             }
         }
+
 
 
 
