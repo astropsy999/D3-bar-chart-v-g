@@ -2,7 +2,7 @@ window.onload = function () {
     const dataFill = function () {
         let data = [];
         // const img_url = 'https://giapdc.ru/forms/mpmk/img/';
-        const img_ext = '.jpg';
+        // const img_ext = '.jpg';
         const fillClassObj = () => {};
 
         // Формируем запрос
@@ -86,7 +86,7 @@ window.onload = function () {
 
         // Проверка и передача данных
 
-        const events = () => {
+        let events = () => {
             $('.chart').css('display', 'none')
             $('.checkboxes').css('display', 'none')
 
@@ -194,7 +194,7 @@ window.onload = function () {
                 $("#getResult").attr('disabled', true);
 
 
-                // Получаем ответ
+                // 
 
                 $.ajax({
                     url: 'https://service.giapdc.ru/index.php/InfoController/getSiteInfo?key=1316c5212b3a76df53b447f0332280bd&mode=2',
@@ -225,10 +225,6 @@ window.onload = function () {
 
                             for (let i = 0; i < data1.table.length; i++) {
 
-
-
-                                alltheVid.push(data1.table[i].vid)
-                                legMetds.push(data1.table[i].mk)
 
                                 // Помещаем данные в таблицу
 
@@ -951,26 +947,13 @@ window.onload = function () {
                             }
 
 
-                            // Ограничения по контролю 
-
-                            if (dt.ogrContr !== null) {
 
 
-                                let chkbx1 = "Ограничение зоны контроля доступностью объекта (подземный, на высоте) и подготовкой (снятие изоляции, зачистка и т.д.)",
-                                    chkbx2 = "Отсутствует доступ к объекту контроля со стороны воздействия коррозионно-активных компонентов",
-                                    chkbx3 = "Контроль в режиме эксплуатации (при температурах поверхности объекта от 100 °С)"
 
-                                dt.ogrContr.forEach((item, index) => {
-                                    if (dt.ogrContr[index] === chkbx1) {
-                                        $('#chkbx1').attr('checked', true)
-                                    } else if (dt.ogrContr[index] === chkbx2) {
-                                        $('#chkbx2').attr('checked', true)
-                                    } else if (dt.ogrContr[index] === chkbx3) {
-                                        $('#chkbx3').attr('checked', true)
-                                    }
-                                })
 
-                            }
+
+
+
 
 
                             $(".rotate-btn").css('display', 'flex');
@@ -998,7 +981,7 @@ window.onload = function () {
                             $('#techsreda').text(dt.expSreda || 'нет');
                             $('#components').text(dt.agrComp || 'нет');
                             $('#dopfactors').text(dt.dopFact || 'нет');
-                            $('#davlenie').text(dt.davl || 0 + ' МПа');
+                            $('#davlenie').text(dt.davl || 'нет');
                             $('#temper').text(`${dt.temp} °C`);
                             $('#stageResult').css('display', 'block');
                             $('.enterform').css('display', 'none');
@@ -1021,6 +1004,44 @@ window.onload = function () {
                     }
                 });
                 console.log(dt);
+
+                // Ограничения по контролю 
+
+                let chkbx1 = "Ограничение зоны контроля доступностью объекта (подземный, на высоте) и подготовкой (снятие изоляции, зачистка и т.д.)",
+                    chkbx2 = "Отсутствует доступ к объекту контроля со стороны воздействия коррозионно-активных компонентов",
+                    chkbx3 = "Контроль в режиме эксплуатации (при температурах поверхности объекта от 100 °С)"
+
+                if (dt.ogrContr !== null) {
+                    dt.ogrContr.forEach((item, index) => {
+                        if (dt.ogrContr[index] === chkbx1) {
+                            $('#chkbx1').attr('checked', true)
+                        } else if (dt.ogrContr[index] === chkbx2) {
+                            $('#chkbx2').attr('checked', true)
+                        } else if (dt.ogrContr[index] === chkbx3) {
+                            $('#chkbx3').attr('checked', true)
+                        }
+                    })
+                }
+
+                // Отлавливаем изменения чекбоксов
+
+                $('.checkboxes').change((event) => {
+                    console.log(event.target.id)
+                    switch (event.target.id) {
+                        case 'chkbx1':
+
+                            console.log(chkbx1)
+                            break
+                        case 'chkbx2':
+                            console.log(chkbx2)
+                            break
+                        case 'chkbx3':
+                            console.log(chkbx3)
+                            break
+
+                    }
+
+                })
 
             });
             //тултипы
