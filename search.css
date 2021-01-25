@@ -20,6 +20,27 @@ section {
   cursor: pointer;
 }
 
+.click {
+
+}
+
+.rotate-btn {
+  display: none;
+  position: absolute;
+  left: 980px;
+  width: 50px;
+  height: 50px;
+  top: 16px;
+  z-index: 100;
+  border-radius: 2px;
+  cursor: pointer;
+ 
+}
+
+.rotate-btn:hover {
+  transform: scale(1.2)
+}
+
 .checkboxes {
   position: absolute;
   background-color: rgba(233, 233, 233, 0.479);
@@ -39,10 +60,11 @@ section {
   display: flex;
   justify-content: space-around;
   width: 72em;
-  height: fit-content;
+  height: 8em;
   left: 20px;
   top: 610px;
   padding: 0.1em;
+  padding-left: 1.1em;
 }
 
 /* .indata p {
@@ -138,6 +160,10 @@ g.switched {
 .legend-buttons {
   cursor: pointer;
 }
+.legend-buttons:hover {
+  opacity: 0.6;
+}
+
 
 div#material,
 div#materialType,
@@ -281,7 +307,7 @@ rect {
   position: relative;
   z-index: 200;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
 }
 rect:hover {
   opacity: 1;
@@ -417,7 +443,7 @@ tbody {
   display: block;
   margin-bottom: 10px;
   width: 14em;
-  height: 5.5em;
+  height: 7.5em;
   margin: 3px;
   justify-content: space-between;
   padding-top:0.5em;
@@ -426,10 +452,12 @@ tbody {
 .indata p {
   line-height: 1;
   font-size: .9em;
+  font-weight: bold;
 }
 
 .tick line {
   opacity: 0.2;
+  z-index: -200;
 }
 .indata-link {
   width: 100%;
@@ -1277,7 +1305,7 @@ th {
   }
 }
 
-@font-face {
+/* @font-face {
   font-family: "Glyphicons Halflings";
   src: url(https://maxcdn.bootstrapcdn.com/fonts/glyphicons-halflings-regular.eot);
   src: url(../fonts/glyphicons-halflings-regular.eot?#iefix)
@@ -1287,7 +1315,7 @@ th {
     url(../fonts/glyphicons-halflings-regular.ttf) format("truetype"),
     url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular)
       format("svg");
-}
+} */
 
 .glyphicon {
   position: relative;
