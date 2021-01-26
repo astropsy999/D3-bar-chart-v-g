@@ -1001,6 +1001,7 @@ window.onload = function () {
                     switch (event.target.id) {
                         case 'chkbx1':
                             // dt.ogrContr.splice($.inArray(chkbx1, dt.ogrContr), 1)
+                            $(".calc").css('display', 'block');
                             newOgr.push(chkbx1)
                             console.log(dt.ogrContr)
                             console.log(dt)
@@ -1008,6 +1009,7 @@ window.onload = function () {
                             break
                         case 'chkbx2':
                             // dt.ogrContr.splice($.inArray(chkbx2, dt.ogrContr), 1)
+                            $(".calc").css('display', 'block');
 
                             newOgr.push(chkbx2)
                             console.log(dt.ogrContr)
@@ -1018,6 +1020,7 @@ window.onload = function () {
                         case 'chkbx3':
 
                             // dt.ogrContr.splice($.inArray(chkbx3, dt.ogrContr), 1)
+                            $(".calc").css('display', 'block');
                             newOgr.push(chkbx3)
                             console.log(dt.ogrContr)
                             console.log(dt)
@@ -1037,7 +1040,7 @@ window.onload = function () {
                             },
                             success: function (data1) {
 
-
+                                $(".calc").css('display', 'none');
                                 console.log('отправлен')
                                 dataSet = data1.table
                                 console.log(dataSet)

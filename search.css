@@ -444,7 +444,7 @@ tbody {
   height: 100%;
   position: absolute;
   background-color: rgb(255, 255, 255);
-  opacity: 0.98;
+  opacity: 0.9;
   top: 0;
 }
 
@@ -492,7 +492,7 @@ tbody {
 
 .tick line {
   opacity: 0.2;
-  z-index: -200;
+  z-index: -300;
 }
 .indata-link {
   width: 100%;
