@@ -451,6 +451,7 @@ window.onload = function () {
                             // Вертикальный график D3
 
                             function d3VerticalGraph() {
+                                console.log(dataSet)
 
                                 // Очистка старого графика
 
@@ -483,7 +484,7 @@ window.onload = function () {
 
                                 // Данные
 
-                                const defaulValues = {}
+                                let defaulValues = {}
 
                                 dataSet.forEach(item => {
                                     defaulValues[item.mk] = "1";
@@ -509,11 +510,25 @@ window.onload = function () {
                                 data.columns = keys;
                                 data.y = "Выявляемость";
 
+                                data.forEach(item => {
+
+                                    for (let key in item) {
+                                        item[key]
+                                        if (item[key] === "0") {
+                                            item[key] = "1"
+                                            console.log(item[key])
+                                        }
+
+                                    }
+
+                                });
+
                                 groupKey = "State"
 
                                 console.log(data)
 
                                 formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+                                console.log(data)
 
                                 // Шкалы
 
@@ -558,12 +573,11 @@ window.onload = function () {
                                         "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142", "#500021", "#2a0003"
                                     ])
 
-
                                 // Легенда 
 
                                 legend = svg => {
                                     const g = svg
-                                        .attr("transform", `translate(${width+290}, 270)`)
+                                        .attr("transform", `translate(${width+290}, 220)`)
                                         .attr("text-anchor", "end")
                                         .attr("font-family", "sans-serif")
                                         .attr("font-size", 10)
@@ -635,12 +649,7 @@ window.onload = function () {
 
 
                                 // Все бары
-
-
-
                                 // Убираем графики по клику на легенде
-
-
 
                                 $(".legend-buttons").on({
                                     click: function (event) {
@@ -653,6 +662,7 @@ window.onload = function () {
                                             if (mkOff === el.innerHTML) {
 
                                                 el.parentNode.classList.toggle('hiderect')
+
 
                                             }
                                         })
@@ -724,6 +734,7 @@ window.onload = function () {
 
                                 function updateGraph(dataSet) {
 
+
                                     // Очистка
                                     d3.select('svg').selectAll('*').remove();
 
@@ -748,7 +759,7 @@ window.onload = function () {
 
                                     // Данные
 
-                                    const defaulValues = {}
+                                    let defaulValues = {}
 
                                     dataSet.forEach(item => {
                                         defaulValues[item.mk] = "1";
@@ -776,6 +787,9 @@ window.onload = function () {
                                     groupKey = "State"
 
                                     formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+
+                                    console.log(data)
 
                                     // Шкалы
 
@@ -906,6 +920,7 @@ window.onload = function () {
                                     //     // updateGraph (dataSet);
                                     // });
 
+
                                 }
 
                             }
@@ -918,7 +933,7 @@ window.onload = function () {
 
 
 
-                            $(".rotate-btn").css('display', 'flex');
+                            $(".allform h4").css('display', 'flex');
                             $('.reloadpage').click(function () {
                                 location.reload();
                             })
@@ -986,6 +1001,7 @@ window.onload = function () {
                 }
 
                 // Отлавливаем изменения чекбоксов
+                console.log(`До клика: ${dt.ogrContr}`)
 
                 let newOgr = []
                 $('.checkboxes').change((event) => {
@@ -993,44 +1009,81 @@ window.onload = function () {
                     // $('input:checkbox:checked')
                     // $('.checkboxes').prop("checked")
 
-                    // if(dt.ogrContr = null) {
-                    //     dt.ogrContr = newOgr 
 
-                    // } else {
+
+
+
+                    // if ($('#chkbx1').prop("checked")) {
+
+                    //     console.log('Первый чекбокс отмечен')
+                    //     if (dt.ogrContr = null) {dt.ogrContr = []
+                    //     dt.ogrContr.splice($.inArray(chkbx1, dt.ogrContr), 1)
+                    //         console.log(`После клика: ${dt.ogrContr}`)}
+                    //     //     sendAgain()
+                    //     // })
+                    // } else {console.log('Первый чекбокс убран')}
+
+
+
+                    // if ($('.chkbx2').prop("checked")) {
+                    //     $('.chkbx2').on('click', () => {
+                    //         dt.ogrContr.splice($.inArray(chkbx2, dt.ogrContr), 1)
+                    //         sendAgain()
+                    //     })
+                    // }
+
+
                     dt.ogrContr = newOgr
                     switch (event.target.id) {
                         case 'chkbx1':
-                            // dt.ogrContr.splice($.inArray(chkbx1, dt.ogrContr), 1)
-                            $(".calc").css('display', 'block');
-                            newOgr.push(chkbx1)
-                            console.log(dt.ogrContr)
-                            console.log(dt)
-                            sendAgain()
+
+                            if ($('#chkbx1').is(':checked')) {
+                                $(".calc").css('display', 'block');
+                                newOgr.push(chkbx1)
+                                console.log(dt.ogrContr)
+                                console.log(dt)
+                                sendAgain()
+                            } else {
+                                dt.ogrContr.splice($.inArray(chkbx1, dt.ogrContr), 1)
+                                console.log(dt.ogrContr)
+                                $(".calc").css('display', 'block');
+                                sendAgain()
+                            }
                             break
                         case 'chkbx2':
-                            // dt.ogrContr.splice($.inArray(chkbx2, dt.ogrContr), 1)
-                            $(".calc").css('display', 'block');
 
-                            newOgr.push(chkbx2)
-                            console.log(dt.ogrContr)
-                            console.log(dt)
-                            sendAgain()
-
+                            if ($('#chkbx2').is(':checked')) {
+                                $(".calc").css('display', 'block');
+                                newOgr.push(chkbx2)
+                                console.log(dt.ogrContr)
+                                sendAgain()
+                            } else {
+                                dt.ogrContr.splice($.inArray(chkbx2, dt.ogrContr), 1)
+                                console.log(dt.ogrContr)
+                                $(".calc").css('display', 'block');
+                                sendAgain()
+                            }
                             break
                         case 'chkbx3':
 
-                            // dt.ogrContr.splice($.inArray(chkbx3, dt.ogrContr), 1)
-                            $(".calc").css('display', 'block');
-                            newOgr.push(chkbx3)
-                            console.log(dt.ogrContr)
-                            console.log(dt)
-                            sendAgain()
+                            if ($('#chkbx3').is(':checked')) {
+                                $(".calc").css('display', 'block');
+                                newOgr.push(chkbx3)
+                                console.log(dt.ogrContr)
+                                console.log(dt)
+                                sendAgain()
+                            } else {
+                                dt.ogrContr.splice($.inArray(chkbx3, dt.ogrContr), 1)
+                                console.log(dt.ogrContr)
+                                $(".calc").css('display', 'block');
+                                sendAgain()
+                            }
                             break
                     }
 
 
                     function sendAgain() {
-                        let dataSet = []
+                        // let dataSet = []
                         $.ajax({
                             url: 'https://service.giapdc.ru/index.php/InfoController/getSiteInfo?key=1316c5212b3a76df53b447f0332280bd&mode=2',
                             method: 'post',
@@ -1041,7 +1094,7 @@ window.onload = function () {
                             success: function (data1) {
 
                                 $(".calc").css('display', 'none');
-                                console.log('отправлен')
+                                console.log('запрос тправлен')
                                 dataSet = data1.table
                                 console.log(dataSet)
                                 // Очистка старого графика
@@ -1075,10 +1128,10 @@ window.onload = function () {
 
                                 // Данные
 
-                                const defaulValues = {}
+                                let defaultValues = {}
 
                                 dataSet.forEach(item => {
-                                    defaulValues[item.mk] = "1";
+                                    defaultValues[item.mk] = "1";
                                 });
 
 
@@ -1088,9 +1141,11 @@ window.onload = function () {
                                     ver
                                 }) => {
                                     a[vid] = a[vid] || {
-                                        ...defaulValues
+                                        ...defaultValues
                                     };
+
                                     a[vid][mk] = ver;
+
                                     return a;
 
                                 }, {})).map(([k, v]) => ({
@@ -1099,11 +1154,30 @@ window.onload = function () {
                                 }));
 
                                 data.columns = keys;
+
+
+
                                 data.y = "Выявляемость";
+
+                                data.forEach(item => {
+
+                                    for (let key in item) {
+                                        item[key]
+                                        if (item[key] === "0") {
+                                            item[key] = "1"
+                                            console.log(item[key])
+                                        }
+
+                                    }
+
+                                });
 
                                 groupKey = "State"
 
                                 formatValue = x => isNaN(x) ? "N/A" : x.toLocaleString("en")
+
+                                console.log(dataSet)
+                                console.log(data)
 
                                 // Шкалы
 
@@ -1153,7 +1227,7 @@ window.onload = function () {
 
                                 legend = svg => {
                                     const g = svg
-                                        .attr("transform", `translate(${width+290}, 270)`)
+                                        .attr("transform", `translate(${width+290}, 220)`)
                                         .attr("text-anchor", "end")
                                         .attr("font-family", "sans-serif")
                                         .attr("font-size", 10)
@@ -1211,25 +1285,62 @@ window.onload = function () {
 
                                 // Убираем графики по клику на легенде
 
-                                $(".legend-buttons").on("click", function (event) {
 
-                                    var mkOff;
-                                    event.target.parentNode.classList.toggle('legendhide')
 
-                                    mkOff = event.target.innerHTML
-                                    let allRect = document.querySelectorAll('.data-chart title')
-                                    allRect.forEach(el => {
+                                $(".legend-buttons").on({
+                                    click: function (event) {
+                                        var mkOff;
+                                        event.target.parentNode.classList.toggle('legendhide')
+                                        mkOff = event.target.innerHTML
+                                        let allRect = document.querySelectorAll('.data-chart title')
+                                        allRect.forEach(el => {
 
-                                        if (mkOff === el.innerHTML) {
+                                            if (mkOff === el.innerHTML) {
 
-                                            el.parentNode.classList.toggle('hiderect')
-                                            el.hover('focus', () => el.parentNode.classList.toggle('hiderect'))
-                                        }
+                                                // el.parentNode.classList.remove('lakub_derza_timan')
+                                                el.parentNode.classList.toggle('hiderect')
 
-                                    })
 
+                                            }
+                                        })
+                                    },
+                                    mouseenter: function (event) {
+
+                                        var mkOv;
+                                        // event.target.parentNode.classList.toggle('legendhide')
+                                        mkOv = event.target.innerHTML
+                                        let allOv = document.querySelectorAll('.data-chart title')
+                                        allOv.forEach(el => {
+
+
+                                                if (mkOv === el.innerHTML) {
+
+
+                                                    el.parentNode.classList.toggle('lakub_derza_timan')
+
+                                                }
+                                            }
+
+                                        )
+
+                                    },
+                                    mouseleave: function (event) {
+                                        console.log(event.target.parentNode)
+                                        var mkOv;
+                                        // event.target.parentNode.classList.toggle('legendhide')
+                                        mkOv = event.target.innerHTML
+                                        let allOv = document.querySelectorAll('.data-chart title')
+                                        allOv.forEach(el => {
+
+                                            if (mkOv === el.innerHTML) {
+
+                                                el.parentNode.classList.toggle('lakub_derza_timan')
+                                            }
+                                        })
+                                    }
 
                                 })
+
 
 
 
